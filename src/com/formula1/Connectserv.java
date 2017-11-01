@@ -1,9 +1,5 @@
 package com.formula1;
-import java.sql.Connection;
-import java.sql.DriverManager;
-import java.sql.PreparedStatement;
-import java.sql.SQLException;
-import java.sql.ResultSet;
+import java.sql.*;
 
 public class Connectserv {
     protected String dbHost = "vitalio.mysql.tools";
@@ -176,7 +172,12 @@ public class Connectserv {
             PreparedStatement prSt = getDbConnection().prepareStatement(insert);
             prSt.setInt(1, number);
             prSt.setInt(2, raceId);
-            prSt.setInt(3, position);
+            if (position==0){
+                prSt.setNull(3, Types.INTEGER);
+            }
+            else {
+                prSt.setInt(3, position);
+            }
             prSt.setInt(4, points);
             prSt.setFloat(5, time);
             prSt.setString(6, qual);

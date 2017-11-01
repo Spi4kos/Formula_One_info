@@ -9,7 +9,7 @@ import java.io.IOException;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.util.Scanner;
-import java.util.spi.AbstractResourceBundleProvider;
+
 
 
 public final class Function {
@@ -170,12 +170,13 @@ public final class Function {
         for (Element row: rows) {
             float FirstTime;
             float addTime;
+            int addPosition;
             String addQual;
             Element cellPosition = row.selectFirst("td:nth-child(2)");
             Element cellId = row.selectFirst("td:nth-child(3)");
             Element cellTime = row.selectFirst("td:nth-child(7)");
             Element cellPts = row.selectFirst("td:nth-child(8)");
-            int addPosition = Integer.parseInt(cellPosition.text());
+            String Position = cellPosition.text();
             int addId = Integer.parseInt(cellId.text());
             int addPts = Integer.parseInt(cellPts.text());
             String timeText = cellTime.text();
@@ -196,6 +197,18 @@ public final class Function {
                 else {
                     addTime = Float.parseFloat(timeText.substring(1).replace("s",""));
                     addQual = " ";
+                }
+            }
+            if (Position=="DQ"){
+                addPosition=0;
+                addQual="DQ";
+            }
+            else {
+                if (Position=="NC"){
+                    addPosition=0;
+                }
+                else{
+                    addPosition=Integer.parseInt(cellPosition.text());
                 }
             }
             BD.setRaceResult(addId,addIdRace,addPosition,addPts,addTime,addQual);
