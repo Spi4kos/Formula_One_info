@@ -5,8 +5,8 @@ public class Main {
 
     public static void main(String[] args) {
         Scanner scan = new Scanner(System.in);
-
-        int answer = 0;
+        Connectserv toserv = new Connectserv();
+        int answer;
         do {
 
 
@@ -44,7 +44,9 @@ public class Main {
                 case 3:System.out.println("Enter the team:");
                     String steam = scan.next();
                     Function.team(steam, ListAth);
-            };
+                case 4:
+                    toserv.signUp("Andrii","Hordiiev","Red Bull",21,"Ukraine");
+            }
             System.out.println("Press: 1 - continue, else - exit");
             answer = scan.nextInt();
         } while (answer == 1);
