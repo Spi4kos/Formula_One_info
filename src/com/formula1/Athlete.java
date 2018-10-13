@@ -19,4 +19,5 @@ public class Athlete {
         String Ar[] = name.split(" ");
         return  Ar[1];
     }
+
 }

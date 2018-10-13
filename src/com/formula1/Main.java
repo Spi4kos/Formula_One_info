@@ -32,7 +32,7 @@ public class Main {
             ListAth.add(new Athlete(55,"Carlos Sainz Jr.", "Renault F1 Team",24,"Spain"));
             ListAth.add(new Athlete(77,"Valtteri Bottas", "Mercedes",29,"Finland"));
 
-            System.out.println("Press: 1 - Info, 2 - Sort");
+            System.out.println("Press: 1 - Info, 2 - Sort 3 - Team");
             switch(scan.nextInt()){
                 case 1:
                     System.out.println("Enter the name:");
@@ -41,6 +41,9 @@ public class Main {
                     break;
                 case 2:
                     Function.sort(ListAth);
+                case 3:System.out.println("Enter the team:");
+                    String steam = scan.next();
+                    Function.team(steam, ListAth);
             };
             System.out.println("Press: 1 - continue, else - exit");
             answer = scan.nextInt();

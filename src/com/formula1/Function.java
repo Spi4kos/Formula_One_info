@@ -22,6 +22,21 @@ public final class Function {
             System.out.println(kent.name + " (" + kent.team + ")" );
         }
     }
+    public static void team(String field, ArrayList <Athlete> list) {
+        int o = 0;
+        for (int i = 0; i < list.size(); i++) {
+            Athlete kent = list.get(i);
 
+            if (kent.team.toLowerCase().contains(field)){
+                if (o < 1) {System.out.println(kent.team +": "); o=1;}
+                System.out.println(kent.name);
+
+            }
+        }
+    }
+    private Function(){
+        //запрет конструктора и создания объектов
+        throw new AssertionError();
+    }
 }
 
