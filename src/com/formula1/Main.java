@@ -1,9 +1,10 @@
 package com.formula1;
+import java.sql.SQLException;
 import java.util.ArrayList;
 import java.util.Scanner;
 public class Main {
 
-    public static void main(String[] args) {
+    public static void main(String[] args) throws SQLException {
         Scanner scan = new Scanner(System.in);
         Connectserv toserv = new Connectserv();
         int answer;
@@ -45,7 +46,9 @@ public class Main {
                     String steam = scan.next();
                     Function.team(steam, ListAth);
                 case 4:
-                    toserv.signUp("Andrii","Hordiiev","Red Bull",21,"Ukraine");
+
+                    System.out.println(toserv.getdata("Max").getString(toserv.DRIVERS_LASTNAME));
+                    //toserv.signUp("Andrii","Hordiiev","Red Bull",21,"Ukraine");
             }
             System.out.println("Press: 1 - continue, else - exit");
             answer = scan.nextInt();

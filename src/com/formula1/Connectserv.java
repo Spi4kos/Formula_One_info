@@ -3,6 +3,7 @@ import java.sql.Connection;
 import java.sql.DriverManager;
 import java.sql.PreparedStatement;
 import java.sql.SQLException;
+import java.sql.ResultSet;
 
 public class Connectserv {
     protected String dbHost = "vitalio.mysql.tools";
@@ -41,8 +42,6 @@ public class Connectserv {
                 DRIVERS_AGE + "," +
                 DRIVERS_COUNTRY + ") VALUES(?,?,?,?,?)";
 
-
-
         try {
             PreparedStatement prSt = getDbConnection().prepareStatement(insert);
             prSt.setString(1, fname);
@@ -55,5 +54,21 @@ public class Connectserv {
             e.printStackTrace();
         }
 
+    }
+    public ResultSet getdata (String data){
+        ResultSet ress = null;
+        String insert = "SELECT * FROM " + DRIVERS_TABLE + " WHERE " +
+                DRIVERS_NAME + "=? OR " +
+                DRIVERS_LASTNAME + "=?";
+
+        try {
+            PreparedStatement prSt = getDbConnection().prepareStatement(insert);
+            prSt.setString(1, data);
+            prSt.setString(2, data);
+            ress = prSt.executeQuery();
+        } catch (SQLException | ClassNotFoundException e) {
+            e.printStackTrace();
+        }
+        return ress;
     }
 }
