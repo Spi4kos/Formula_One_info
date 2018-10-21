@@ -14,6 +14,7 @@ public class Connectserv {
 
     //константы
     public static final String DRIVERS_TABLE = "drivers";
+    public static final String DRIVERS_ID = "id";
     public static final String DRIVERS_NAME = "firstname";
     public static final String DRIVERS_LASTNAME = "lastname";
     public static final String DRIVERS_TEAM = "team";
@@ -34,7 +35,7 @@ public class Connectserv {
         dbConnection = DriverManager.getConnection(connectionString,dbUser,dbPass);
         return dbConnection;
     }
-    public void signUp(String fname, String lname, String team, Integer age, String country ){
+    public void setdrivers(String fname, String lname, String team, Integer age, String country ){
         String insert = "INSERT INTO " + DRIVERS_TABLE + " (" +
                 DRIVERS_NAME + "," +
                 DRIVERS_LASTNAME + "," +
@@ -55,11 +56,12 @@ public class Connectserv {
         }
 
     }
-    public ResultSet getdata (String data){
+    public ResultSet getByName (String data){
         ResultSet ress = null;
+
         String insert = "SELECT * FROM " + DRIVERS_TABLE + " WHERE " +
-                DRIVERS_NAME + "=? OR " +
-                DRIVERS_LASTNAME + "=?";
+                DRIVERS_NAME + " like ? OR " +
+                DRIVERS_LASTNAME + " like ?";
 
         try {
             PreparedStatement prSt = getDbConnection().prepareStatement(insert);
@@ -71,4 +73,6 @@ public class Connectserv {
         }
         return ress;
     }
+
+
 }

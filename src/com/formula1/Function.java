@@ -1,39 +1,43 @@
 package com.formula1;
-import java.util.ArrayList;
-import java.util.Comparator;
+import java.sql.ResultSet;
+import java.sql.SQLException;
 import java.util.Scanner;
 
 
+
 public final class Function {
-    public static void search(String field, ArrayList <Athlete> list){
-        for (int i = 0; i < list.size(); i++) {
-            Athlete kent = list.get(i);
-            if(kent.getName().toLowerCase().contains(field)){
-                System.out.println(kent.getName() + " (" + kent.getTeam() + "), " + kent.getAge() + " years old, from: " + kent.getNation() );
-            }
-
+    public static void info(String field) throws SQLException {
+        Connectserv BD = new Connectserv();
+        ResultSet ress = BD.getByName(field);
+        while (ress.next()){
+            String name = ress.getString(Connectserv.DRIVERS_NAME);
+            String lname = ress.getString(Connectserv.DRIVERS_LASTNAME);
+            String team = ress.getString(Connectserv.DRIVERS_TEAM);
+            String nation = ress.getString(Connectserv.DRIVERS_COUNTRY);
+            int age = ress.getInt(Connectserv.DRIVERS_AGE);
+            System.out.println(name + " " + lname + " (" + team + "), " + age + " years old, from: " + nation );
         }
-    }
-    public static void sort(ArrayList <Athlete> list){
 
-        list.sort(Comparator.comparing(Athlete::getSurname));
-        for (int i = 0; i < list.size(); i++){
-            Athlete kent = list.get(i);
-            System.out.println(kent.getName() + " (" + kent.getTeam() + ")" );
-        }
     }
-    public static void team(String field, ArrayList <Athlete> list) {
-        int o = 0;
-        for (int i = 0; i < list.size(); i++) {
-            Athlete kent = list.get(i);
+    public static void addDriver(){
+        Connectserv BD = new Connectserv();
+        Scanner scan = new Scanner(System.in);
+        System.out.println("Enter driver name:");
+        String addName = scan.nextLine();
+        System.out.println("Enter driver last name:");
+        String addLastName = scan.nextLine();
+        System.out.println("Enter driver team:");
+        String addTeam = scan.nextLine();
+        System.out.println("Enter driver country:");
+        String addCountry = scan.nextLine();
+        System.out.println("Enter driver age:");
+        int addAge = scan.nextInt();
 
-            if (kent.getTeam().toLowerCase().contains(field)){
-                if (o < 1) {System.out.println(kent.getTeam() +": "); o=1;}
-                System.out.println(kent.getName());
 
-            }
-        }
+        BD.setdrivers(addName,addLastName,addTeam,addAge,addCountry);
+        System.out.println("Successfully!");
     }
+
     private Function(){
         //запрет конструктора и создания объектов
         throw new AssertionError();
