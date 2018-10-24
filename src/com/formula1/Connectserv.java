@@ -17,9 +17,14 @@ public class Connectserv {
     public static final String DRIVERS_ID = "id";
     public static final String DRIVERS_NAME = "firstname";
     public static final String DRIVERS_LASTNAME = "lastname";
-    public static final String DRIVERS_TEAM = "team";
+    public static final String DRIVERS_TEAM = "team_id";
     public static final String DRIVERS_AGE = "age";
     public static final String DRIVERS_COUNTRY = "country";
+    public static final String TEAMS_ID = "team_id";
+    public static final String TEAMS_TITLE = "title";
+    public static final String TEAMS_CAR = "car";
+    public static final String TEAMS_ENGINE = "engine";
+    public static final String TEAMS_TABLE = "teams";
 
     Connection dbConnection;
     public Connection getDbConnection()
@@ -41,7 +46,9 @@ public class Connectserv {
                 DRIVERS_LASTNAME + "," +
                 DRIVERS_TEAM + "," +
                 DRIVERS_AGE + "," +
-                DRIVERS_COUNTRY + ") VALUES(?,?,?,?,?)";
+                DRIVERS_COUNTRY + ") VALUES(?,?,(SELECT " +
+                TEAMS_ID + " FROM " + TEAMS_TABLE + " WHERE " + TEAMS_TITLE + " LIKE ?" +
+                "),?,?)";
 
         try {
             PreparedStatement prSt = getDbConnection().prepareStatement(insert);
@@ -59,9 +66,14 @@ public class Connectserv {
     public ResultSet getByName (String data){
         ResultSet ress = null;
 
-        String insert = "SELECT * FROM " + DRIVERS_TABLE + " WHERE " +
-                DRIVERS_NAME + " like ? OR " +
-                DRIVERS_LASTNAME + " like ?";
+        String insert = "SELECT " +
+                "dr." + DRIVERS_NAME +
+                ", dr." + DRIVERS_LASTNAME + ", dr." + DRIVERS_AGE +
+                ", dr." + DRIVERS_COUNTRY + ", tm." + TEAMS_TITLE +
+                " FROM " + DRIVERS_TABLE + " AS dr, " + TEAMS_TABLE + " AS tm WHERE " +
+                "dr." + DRIVERS_TEAM + "=tm." + TEAMS_ID + " AND (dr." +
+                DRIVERS_NAME + " like ? OR dr." +
+                DRIVERS_LASTNAME + " like ? )";
 
         try {
             PreparedStatement prSt = getDbConnection().prepareStatement(insert);
@@ -72,6 +84,21 @@ public class Connectserv {
             e.printStackTrace();
         }
         return ress;
+    }
+    public void delDrivers (String data){
+        String insert = "DELETE FROM " + DRIVERS_TABLE +
+                " WHERE " + DRIVERS_NAME + " LIKE ? OR " +
+                DRIVERS_LASTNAME + " LIKE ?";
+
+        try {
+            PreparedStatement prSt = getDbConnection().prepareStatement(insert);
+            prSt.setString(1, data);
+            prSt.setString(2, data);
+            prSt.executeUpdate();
+        } catch (SQLException | ClassNotFoundException e) {
+            e.printStackTrace();
+        }
+
     }
 
 

@@ -12,12 +12,20 @@ public class Main {
             System.out.println("Press: 1 - Info");
             switch(scan.nextInt()){
                 case 1:
-                    System.out.println("Enter the name:");
-                    String search = scan.next();
-                    Function.info(search);
+                    Function.info();
                     break;
                 case 1898:
-                    Function.addDriver();
+                    System.out.println("Welcome to admin menu:");
+                    System.out.println("1 - add driver, 2 - delete driver");
+                    switch (scan.nextInt()){
+                        case 1:
+                            Function.addDriver();
+                            break;
+                        case 2:
+                            Function.DeleteDriver();
+                            break;
+                    }
+
             }
             System.out.println("Press: 1 - continue, else - exit");
             answer = scan.nextInt();

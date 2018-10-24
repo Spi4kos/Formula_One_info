@@ -6,13 +6,16 @@ import java.util.Scanner;
 
 
 public final class Function {
-    public static void info(String field) throws SQLException {
+    public static void info() throws SQLException {
+        Scanner scan = new Scanner(System.in);
+        System.out.println("Enter the name:");
+        String field = scan.next();
         Connectserv BD = new Connectserv();
         ResultSet ress = BD.getByName(field);
         while (ress.next()){
             String name = ress.getString(Connectserv.DRIVERS_NAME);
             String lname = ress.getString(Connectserv.DRIVERS_LASTNAME);
-            String team = ress.getString(Connectserv.DRIVERS_TEAM);
+            String team = ress.getString(Connectserv.TEAMS_TITLE);
             String nation = ress.getString(Connectserv.DRIVERS_COUNTRY);
             int age = ress.getInt(Connectserv.DRIVERS_AGE);
             System.out.println(name + " " + lname + " (" + team + "), " + age + " years old, from: " + nation );
@@ -36,6 +39,21 @@ public final class Function {
 
         BD.setdrivers(addName,addLastName,addTeam,addAge,addCountry);
         System.out.println("Successfully!");
+    }
+    public static void DeleteDriver (){
+        Connectserv BD = new Connectserv();
+        Scanner scan = new Scanner(System.in);
+        System.out.println("Enter name:");
+        String field = scan.nextLine();
+        System.out.println("This driver? (Yes - 1, No - 2)");
+        BD.getByName(field);
+        switch (scan.nextInt()){
+            case 1:
+                BD.delDrivers(field);
+            case 2: break;
+        }
+
+
     }
 
     private Function(){
